@@ -176,6 +176,11 @@ func main() {
 		mux.Handle("/metrics", promhttp.HandlerFor(reg, promhttp.HandlerOpts{}))
 	}
 
+	mux.Handle("/healt", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	}))
+
 	srv := &http.Server{
 		Handler:      mux,
 		Addr:         fmt.Sprintf(":%d", cfg.Port),
